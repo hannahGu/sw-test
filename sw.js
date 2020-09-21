@@ -23,24 +23,24 @@ self.addEventListener('fetch', function (event) {
     console.log(44, caches)
     // caches.match() always resolves
     // but in case of success response will have value
-    if (response !== undefined) {
-      return response;
-    } else {
-      return fetch(event.request).then(function (response) {
-        // response may be used only once
-        // we need to save clone to put one copy in cache
-        // and serve second one
-        console.log(4566, event.request, response)
-        let responseClone = response.clone();
+    // if (response !== undefined) {
+    //   return response;
+    // } else {
+    return fetch(event.request).then(function (response) {
+      // response may be used only once
+      // we need to save clone to put one copy in cache
+      // and serve second one
+      console.log(4566, event.request, response)
+      let responseClone = response.clone();
 
-        caches.open('v1').then(function (cache) {
-          cache.put(event.request, responseClone);
-          console.log(777, cache)
-        });
-        return response;
-      }).catch(function () {
-        return caches.match('/sw-test/gallery/myLittleVader.jpg');
+      caches.open('v1').then(function (cache) {
+        cache.put(event.request, responseClone);
+        console.log(777, cache)
       });
-    }
+      return response;
+    }).catch(function () {
+      return caches.match('/sw-test/gallery/myLittleVader.jpg');
+    });
+    //  }
   }));
 });
