@@ -35,6 +35,7 @@ self.addEventListener('fetch', function (event) {
 
         caches.open('v1').then(function (cache) {
           cache.put(event.request, responseClone);
+          console.log(777, cache)
         });
         return response;
       }).catch(function () {
